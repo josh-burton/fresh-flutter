@@ -1,0 +1,128 @@
+update_fastlane
+
+CRASHLYTICS_API_KEY = ""
+CRASHLYTICS_BUILD_SECRET = ""
+build_number = number_of_commits()
+
+lane :certificates do |options|
+  match(force_for_new_devices: true,
+        readonly: true,
+        app_identifier: [],
+        type: options[:type])
+end
+
+lane :crashlytics_all do
+  self.runner.current_platform = :android
+  crashlytics_beta
+
+  self.runner.current_platform = :ios
+  crashlytics_beta
+end
+
+platform :android do
+  desc "Submit a new Beta Build to Crashlytics Beta"
+
+  lane :build do
+    Dir.chdir ".." do
+      sh "flutter build apk -t lib/main.dart --release --build-number=#{build_number}"
+    end
+  end
+
+  lane :bundle do
+    Dir.chdir ".." do
+      sh "flutter build appbundle -t lib/main.dart --release --build-number=#{build_number}"
+    end
+  end
+
+  lane :crashlytics_beta do
+    build
+
+    crashlytics(
+        groups: "beta",
+        api_token: CRASHLYTICS_API_KEY,
+        build_secret: CRASHLYTICS_BUILD_SECRET,
+        apk_path: './build/app/outputs/apk/stage/release/app-stage-release.apk'
+    )
+  end
+end
+
+platform :ios do
+  desc "Submit a new Beta Build to Crashlytics Beta"
+
+  lane :build do
+    Dir.chdir ".." do
+      sh "flutter build ios --release -t lib/main.dart --no-codesign --build-number=#{build_number}"
+    end
+
+  end
+
+  lane :export_ipa do |options|
+    build_ios_app(
+        scheme: options[:scheme],
+        clean: false,
+        export_method: options[:export_method],
+        workspace: "ios/Runner.xcworkspace",
+    )
+  end
+
+  desc "Export, Sign and push a new build to TestFlight"
+  lane :upload_appstore do
+    certificates(type: "appstore")
+
+    build
+
+    export_ipa(
+        scheme: 'Runner',
+        export_method: 'app-store'
+    )
+
+    upload_to_app_store(
+        force: true,
+        ipa: "Runner.ipa",
+    )
+  end
+
+  desc "Export, Sign and push a new build to TestFlight"
+  lane :upload_testflight do
+    certificates(type: "appstore")
+
+    export_ipa(
+        scheme: 'Runner',
+        export_method: 'app-store'
+    )
+
+    upload_to_testflight(
+        skip_waiting_for_build_processing: true,
+        ipa: "Runner.ipa",
+    )
+  end
+
+  desc "Export, Sign and push a new build to Crashlytics"
+  lane :upload_crashlytics do
+    certificates(type: "adhoc")
+
+    export_ipa(
+        scheme: 'Runner',
+        export_method: 'ad-hoc'
+    )
+
+    crashlytics(
+        groups: "beta",
+        api_token: CRASHLYTICS_API_KEY,
+        build_secret: CRASHLYTICS_BUILD_SECRET
+    )
+
+    upload_symbols_to_crashlytics(binary_path: './ios/Pods/Fabric/iOS/Fabric.framework/upload-symbols')
+  end
+
+  desc "Push a new build to Crashlytics and TestFlight"
+  lane :crashlytics_beta do
+
+    build_stage
+
+    upload_stage_crashlytics
+
+    upload_stage_testflight
+
+  end
+end
