@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_flutter/feature/home/repository/HomeRepository.dart';
 import 'package:get_it/get_it.dart';
@@ -34,6 +35,8 @@ Future<void> setupInjection() async {
   inject.registerLazySingleton<Dio>(() {
     var options = BaseOptions();
     final dio = Dio(options);
+
+    dio.transformer = FlutterTransformer();
 
     dio.interceptors.add(LogInterceptor());
 

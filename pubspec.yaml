@@ -11,25 +11,27 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
-  provider: ^3.1.0
-  flutter_fimber: ^0.3.0
+  provider: ^3.1.0+1
+  flutter_fimber: ^0.3.1
   flutter_vector_icons: ^0.2.1
   flutter_svg: ^0.13.1
   padder: ^1.2.0
   shared_preferences: 0.5.3+4
   streaming_shared_preferences: ^1.0.1
-  get_it: ^2.1.0
+  get_it: ^3.0.3
   rxdart: any
   auto_size_text: ^2.1.0
   after_layout: ^1.0.7+2
-  url_launcher: ^5.1.2
+  url_launcher: ^5.2.5
   kt_dart: 0.6.2
   intl: any
-  dio: ^2.1.16
+  dio: ^3.0.4
+  dio_flutter_transformer: ^3.0.2
   tuple: any
-  package_info: ^0.4.0+6
+  package_info: ^0.4.0+10
   flutter_advanced_networkimage: ^0.5.0
   system_proxy: 0.0.1
+  keel: 0.0.2
 #  firebase_crashlytics: ^0.1.0+3
 #  firebase_analytics: ^5.0.1
 
