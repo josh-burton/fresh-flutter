@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
       imageOpacity = 1.0;
     });
 
-    subscription = Observable<bool>.timer(true, Duration(seconds: 1)).listen((route) {
+    subscription = TimerStream<bool>(true, Duration(seconds: 1)).listen((route) {
       if (mounted) {
         Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.ROUTE, (it) => it == null);
       }

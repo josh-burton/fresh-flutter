@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
 
   static Widget create() {
     return ChangeNotifierProvider(
-      builder: (context) => HomeViewModel(inject<HomeRepository>()),
+      create: (context) => HomeViewModel(inject<HomeRepository>()),
       child: HomeScreen(),
     );
   }
@@ -23,6 +23,7 @@ class HomeScreen extends StatelessWidget {
         title: Text("Home"),
       ),
       body: ViewModelEventListener<HomeViewModel, HomeEvent>(
+        onEvent: (event) {  },
         child: Consumer<HomeViewModel>(
           builder: (context, model, widget) {
             return Container(
