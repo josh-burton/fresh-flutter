@@ -6,7 +6,7 @@ import 'package:fresh_flutter/feature/home/HomeScreen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const ROUTE = "/";
+  static const ROUTE = "splash";
 
   @override
   _SplashScreenState createState() => _SplashScreenState();

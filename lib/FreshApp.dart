@@ -36,7 +36,7 @@ class _FreshAppState extends State<FreshApp> with WidgetsBindingObserver {
             LoggingNavigationObserver(),
 //            FirebaseAnalyticsObserver(analytics: inject<FirebaseAnalytics>()),
           ],
-          initialRoute: "/",
+          initialRoute: SplashScreen.ROUTE,
           routes: <String, WidgetBuilder>{
             SplashScreen.ROUTE: (context) => SplashScreen(),
           },

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../inject.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const ROUTE = "/home";
+  static const ROUTE = "/";
 
   static Widget create() {
     return ChangeNotifierProvider(
