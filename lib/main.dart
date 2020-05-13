@@ -23,9 +23,9 @@ void main() async {
   await setupInjection();
 
   if (enableCrashlytics) {
-    await runZoned<Future<void>>(() async {
+    await runZonedGuarded<Future<void>>(() async {
       runApp(FreshApp());
-    }, onError: (Object ex, StackTrace stack) => Fimber.e("Uncaught error", ex: ex, stacktrace: stack));
+    }, (Object ex, StackTrace stack) => Fimber.e("Uncaught error", ex: ex, stacktrace: stack));
   } else {
     runApp(FreshApp());
   }
