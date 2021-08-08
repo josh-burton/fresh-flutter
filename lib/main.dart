@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
-import 'package:fresh_flutter/FreshApp.dart';
+import 'package:fresh_flutter/fresh_app.dart';
 
 import 'inject.dart';
 

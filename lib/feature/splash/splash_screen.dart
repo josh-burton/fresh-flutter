@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:fresh_flutter/feature/home/HomeScreen.dart';
+import 'package:fresh_flutter/feature/home/home_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,7 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin {
-  StreamSubscription subscription;
+  StreamSubscription? subscription;
   double imageOpacity = 0;
 
   @override

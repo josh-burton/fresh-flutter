@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fimber/flutter_fimber.dart';
-import 'package:fresh_flutter/core/AppTheme.dart';
-import 'package:fresh_flutter/feature/home/HomeScreen.dart';
-import 'package:fresh_flutter/util/LoggingNavigationObserver.dart';
+import 'package:fresh_flutter/core/app_theme.dart';
+import 'package:fresh_flutter/feature/home/home_screen.dart';
+import 'package:fresh_flutter/util/logging_navigation_observer.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'feature/splash/SplashScreen.dart';
+import 'feature/splash/splash_screen.dart';
 import 'inject.dart';
 
 class FreshApp extends StatefulWidget {
@@ -15,7 +15,7 @@ class FreshApp extends StatefulWidget {
 }
 
 class _FreshAppState extends State<FreshApp> with WidgetsBindingObserver {
-  var lifecycle = inject<Subject<AppLifecycleState>>();
+  Subject<AppLifecycleState> lifecycle = inject<Subject<AppLifecycleState>>();
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -34,7 +34,6 @@ class _FreshAppState extends State<FreshApp> with WidgetsBindingObserver {
           theme: buildTheme(),
           navigatorObservers: [
             LoggingNavigationObserver(),
-//            FirebaseAnalyticsObserver(analytics: inject<FirebaseAnalytics>()),
           ],
           initialRoute: SplashScreen.ROUTE,
           routes: <String, WidgetBuilder>{
@@ -58,16 +57,16 @@ class _FreshAppState extends State<FreshApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
-  PageRouteBuilder _fadeRoute(String name, Widget widget, {Object arguments}) {
+  PageRouteBuilder _fadeRoute(String name, Widget widget, {Object? arguments}) {
     return PageRouteBuilder<dynamic>(
         settings: RouteSettings(name: name, arguments: arguments),
         pageBuilder: (BuildContext context, _, __) {

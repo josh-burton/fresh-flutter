@@ -1,22 +1,21 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:dio_flutter_transformer/dio_flutter_transformer.dart';
+import 'package:dio_flutter_transformer2/dio_flutter_transformer2.dart';
 import 'package:flutter/material.dart';
-import 'package:fresh_flutter/feature/home/repository/HomeRepository.dart';
+import 'package:fresh_flutter/feature/home/repository/home_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'package:system_proxy/system_proxy.dart';
 
-import 'api/FreshApi.dart';
-import 'core/Preferences.dart';
+import 'core/preferences.dart';
 
 GetIt inject = GetIt.instance;
 
 Future<void> setupInjection() async {
   final streamingPrefs = await StreamingSharedPreferences.instance;
-  Map<String, String> proxy = await SystemProxy.getProxySettings();
+  Map<String, String>? proxy = await SystemProxy.getProxySettings();
 
   inject.registerSingleton<GlobalKey<NavigatorState>>(GlobalKey<NavigatorState>());
 
@@ -43,11 +42,9 @@ Future<void> setupInjection() async {
     return dio;
   });
 
-  inject.registerLazySingleton<FreshApi>(() {
-    return FreshApi(dio: inject<Dio>());
+  inject.registerLazySingleton<HomeRepository>(() {
+    return HomeApiRepository(inject<Preferences>());
   });
 
-  inject.registerLazySingleton<HomeRepository>(() {
-    return HomeApiRepository(inject<FreshApi>(), inject<Preferences>());
-  });
+  return inject.allReady();
 }

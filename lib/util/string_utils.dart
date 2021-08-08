@@ -196,8 +196,8 @@ class StringUtils {
   /// 1234567890 with begin 2 and end 6 => 12****7890
   /// 1234567890 with begin 1 => 1****67890
   ///
-  static String hidePartial(String s,
-      {int begin = 0, int end, String replace = "*"}) {
+  static String? hidePartial(String s,
+      {int begin = 0, int? end, String replace = "*"}) {
     StringBuffer buffer = new StringBuffer();
     if (s.length <= 1) {
       return null;
